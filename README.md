@@ -44,3 +44,10 @@ The trade-off is that the result is not a full recursive patch format. It tells 
 - Inherited object properties are ignored; only own enumerable string keys are compared.
 - Symbols are not compared. They are rarely part of plain data objects, and supporting them would complicate path serialization without clear benefit.
 - `null` and objects are treated as different types, so a transition between them is a `change` at the path where it occurs.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
